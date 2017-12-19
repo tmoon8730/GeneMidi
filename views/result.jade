@@ -2,7 +2,7 @@ extends layout
 
 block content
   h1 Your results
-  button Click Me
+  button(id="chord") Click Me
   input(id="genes" value="#{songString}")
   each g, i in genotypes
     p <b>#{names[g.id]} #{JSON.stringify(g)}</b>
