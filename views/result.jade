@@ -11,7 +11,7 @@ block content
     Array.prototype.random = function(){
       return this[Math.floor((Math.random()*this.length))];
     }
-    var synth = new Tone.PolySynth(4, Tone.Synth).toMaster()
+    var synth = new Tone.Synth().toMaster()
     var noteLength = ["16n","8n","4n","2n"]
     var loop = new Tone.Loop(function(time){
       var data = document.getElementById('genes').value;
