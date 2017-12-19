@@ -9,8 +9,6 @@ exports.index = function(req, res, scope){
         var headers = {Authorization: 'Bearer ' + req.signedCookies.access_token};
         request.get({ url: base_uri + '/names/', headers: headers, json: true }, function (e, r, body) {
             if(r.statusCode != 200) {
-                console.error("not a 200 status code")
-                console.error(r)
                 res.clearCookie('access_token');
                 res.redirect('/');
             } else {
@@ -19,7 +17,10 @@ exports.index = function(req, res, scope){
                     names_by_id[names.profiles[i].id] = names.profiles[i].first_name + ' ' + names.profiles[i].last_name;
                 }
                 request.get({ url: base_uri + '/genotype/?locations=' + _scope.COMTscope, headers: headers, json: true}, function (e, r, body) {
-                    genotypes = body;
+                    genotypes = body[0];
+                    for(var attribute in genotypes){
+                      console.log(attribute + ": "+genotypes[attribute]);
+                    }
                     res.render('result', {
                         names: names_by_id,
                         genotypes: genotypes

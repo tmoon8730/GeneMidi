@@ -2,5 +2,27 @@ extends layout
 
 block content
   h1 Your results
+  button Click Me
+  input(id="genes" value="#{genotypes}")
   each g, i in genotypes
     p <b>#{names[g.id]} #{JSON.stringify(g)}</b>
+  
+  script(type="text/javascript").
+    var synth = new Tone.AMSynth().toMaster()
+
+    var loop = new Tone.Loop(function(time){
+      var data = document.getElementById('genes').value;
+      var split = data.split(',');
+      console.log(split[0])
+      synth.triggerAttackRelease(split[0], "8n", time);
+      split = split.splice(1,split.length);
+      console.log(split)
+      document.getElementById('genes').value = split;
+    }, "4n")
+    loop.start(0).stop('2m')
+
+    document.querySelectorAll('button').forEach(function(button){
+      button.addEventListener('mousedown', function(e){
+        Tone.Transport.start('+0.1')
+      });
+    });
