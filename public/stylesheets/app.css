@@ -1,0 +1,8 @@
+h1{
+  color:#1ba2a2
+}
+
+#Canvas{
+  z-index: -1;
+  background-color: rgb(52, 85, 223)
+}
