@@ -1,6 +1,10 @@
 var request = require('request');
 var _scope = require('../scope.js');
 
+Array.prototype.random = function(){
+  return this[Math.floor((Math.random()*this.length))];
+}
+
 exports.index = function(req, res, scope){
     if (req.signedCookies.access_token) {
       console.log("In signedCookies")
@@ -18,12 +22,32 @@ exports.index = function(req, res, scope){
                 }
                 request.get({ url: base_uri + '/genotype/?locations=' + _scope.COMTscope, headers: headers, json: true}, function (e, r, body) {
                     genotypes = body[0];
+                    var songString = ""
+                    var acceptableGenotypes = ["A","C","G","T"]
+                    var numbers = ["4","5","6"]
                     for(var attribute in genotypes){
-                      console.log(attribute + ": "+genotypes[attribute]);
+                      var currentGenotype = genotypes[attribute];
+                      var firstChar = currentGenotype.charAt(0);
+                      var secondChar = currentGenotype.charAt(1);
+
+                      // If the index is -1 then the character doesn't exist in the
+                      // acceptable genotypes
+                      if(acceptableGenotypes.indexOf(firstChar) == -1 ||
+                         acceptableGenotypes.indexOf(secondChar) == -1){
+                        console.error("ERROR" + firstChar + secondChar)
+                      }else{
+                        if(firstChar == "T")
+                          firstChar = "B"
+                        if(secondChar == "T")
+                          secondChar = "B"
+                        songString = songString + firstChar + numbers.random() + "," + secondChar + numbers.random() + ","
+                      }
                     }
+                    console.log(songString)
                     res.render('result', {
                         names: names_by_id,
-                        genotypes: genotypes
+                        genotypes: genotypes,
+                        songString: songString
                     });
                 });
             }
