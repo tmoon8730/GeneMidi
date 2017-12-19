@@ -1,70 +1,29 @@
-const express = require('express')
-const app = express()
-const request = require('request')
+var express = require('express');
 var bodyParser = require('body-parser')
-var path = require('path')
+var cookieParser = require('cookie-parser');
+var routes  = require('./routes');
+var http    = require('http');
+var path    = require('path');
+var _scope  = require('./scope.js');
 
-const credentials = {
-  client: {
-    id: 'd1c385794e09e6bf92ce9bbad4fc09a0',
-    secret: '7ebe66e00d0408a5fa37459cfabcf497'
-  },
-  auth: {
-    tokenHost: 'https://api.23andme.com',
-    authorizePath: '/authorize',
-    tokenPath: '/token'
-  }
-};
+var app = express();
 
-/*var oauth2 = require('simple-oauth2')({
-  clientId: 'd1c385794e09e6bf92ce9bbad4fc09a0',
-  clientSecret: '7ebe66e00d0408a5fa37459cfabcf497',
-  site: 'https://api.23andme.com',
-  tokenPath: '/token',
-  authorizationPath: '/authorize'
-});*/
-
-const oauth2 = require('simple-oauth2').create(credentials);
-
-var authorization_uri = oauth2.authorizationCode.authorizeURL({
-  redirect_uri: 'http://localhost:3000/receive_code/',
-  scope: 'basic  rs737866'
-});
-
-app.get('/', function(req,res){
-  res.sendFile(path.join(__dirname+'/index.html'));
-})
-
-app.get('/auth', function (req, res) {
-  res.redirect(authorization_uri);
-});
-
-app.get('/receive_code', function(req,res){
-  var code = req.query.code;
-  if(!code){
-    res.send('Error no code sent')
-  }else {
-    console.log('running')
-    oauth2.authorizationCode.getToken({
-      code: code,
-      redirect_uri: 'http://localhost:300/receive_code/'
-    }, saveToken);
-
-    function saveToken(error, result) {
-      console.log(result)
-      if (error) {
-        console.log('Access Token Error', error.message);
-      } else {
-        token = oauth2.accessToken.create(result);
-        console.log(token);
-      }
-    };
-
-    res.sendFile(path.join(__dirname+'/genetic_data.html'))
-  }
-})
-
+app.set('port', process.env.PORT || 3000);
+app.set('views', __dirname + '/views');
+app.set('view engine', 'jade');
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser(process.env.COOKIE_SECRET))
+app.use(express.static(path.join(__dirname, 'public')));
+app.set('scope', _scope.COMTscope);
 
-app.listen(3000, () => console.log("App listening on port 3000!"))
+app.get('/', function(res, req) {
+    routes.index(res, req, app.get('scope'));
+});
+app.get('/receive_code/', function(res, req) {
+    routes.receive_code(res, req, app.get('scope'));
+});
+
+http.createServer(app).listen(app.get('port'), function(){
+  console.log('Express server listening on port ' + app.get('port'));
+})

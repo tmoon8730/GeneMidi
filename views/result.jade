@@ -1,0 +1,6 @@
+extends layout
+
+block content
+  h1 Your results
+  each g, i in genotypes
+    p <b>#{names[g.id]} #{JSON.stringify(g)}</b>
