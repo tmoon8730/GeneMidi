@@ -8,25 +8,36 @@ block content
     p <b>#{names[g.id]} #{JSON.stringify(g)}</b>
   
   script(type="text/javascript").
-    Array.prototype.random = function(){
-      return this[Math.floor((Math.random()*this.length))];
-    }
+    Array.prototype.random = function(){return this[Math.floor((Math.random()*this.length))];}
     var synth = new Tone.Synth().toMaster()
-    var noteLength = ["16n","8n","4n","2n"]
+    var noteLength = ["32n","16n","8n","4n","2n","1n"]
+    
+    var piano = new Tone.Sampler({
+      'C4':'C4.mp3',
+      'C5':'C5.mp3',
+      'A4':'A4.mp3',
+      'A5':'A5.mp3'
+      }, {'release': 1, 'baseUrl':'/audio/'}).toMaster();
+      
     var loop = new Tone.Loop(function(time){
-      var data = document.getElementById('genes').value;
-      var split = data.split(',');
-      console.log(split[0])
-      synth.triggerAttackRelease(split[0], noteLength.random(), time);
-      //synth.triggerAttackRelease(["C4", "E4", "G4", "B4"], "8n")
-      split = split.splice(1,split.length);
-      console.log(split)
-      document.getElementById('genes').value = split;
+      var data = document.getElementById('genes').value.split(',');
+      piano.triggerAttackRelease(data[0], noteLength.random(), time);
+      data = data.splice(1,data.length);
+      document.getElementById('genes').value = data;
     }, "4n")
     loop.start(0).stop('17m')
+      
+    
+
+    
 
     document.querySelectorAll('button').forEach(function(button){
       button.addEventListener('mousedown', function(e){
         Tone.Transport.start('+0.1')
+      //  piano.triggerAttack("C4")
       });
+      button.addEventListener('mouseup', function(e){
+        Tone.Transport.stop()
+      //  piano.triggerRelease("C4")
+      })
     });

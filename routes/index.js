@@ -23,8 +23,8 @@ exports.index = function(req, res, scope){
                 request.get({ url: base_uri + '/genotype/?locations=' + _scope.COMTscope, headers: headers, json: true}, function (e, r, body) {
                     genotypes = body[0];
                     var songString = ""
-                    var acceptableGenotypes = ["A","C","G","T"]
-                    var numbers = ["4","5","6"]
+                    var acceptableGenotypes = ["C","A"]
+                    var numbers = ["4","5"]
                     for(var attribute in genotypes){
                       var currentGenotype = genotypes[attribute];
                       var firstChar = currentGenotype.charAt(0);
