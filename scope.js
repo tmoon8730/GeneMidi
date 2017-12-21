@@ -1,3 +1,8 @@
+/**
+ * scope.js
+ * Defines an array of rsIds for the oAuth authentication with
+ * 23andMe
+ */
 var COMT = [
   "rs737866",
   "rs737865",
@@ -39,4 +44,5 @@ var COMT = [
   "%20names"
 ]
 
+// Export the array as a string joined by urlencoded space character
 exports.COMTscope = COMT.join("%20");

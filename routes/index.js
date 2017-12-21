@@ -1,68 +1,146 @@
+/**
+ * index.js
+ * Main route file that handles the authentication and also parsing
+ * the API response for the Tone.js font end script
+ */
 var request = require('request');
 var _scope = require('../scope.js');
 
-Array.prototype.random = function(){
-  return this[Math.floor((Math.random()*this.length))];
-}
+var acceptableGenotypes = ["C","A"]
+var numbers = ["4","5"]
+var base_uri = 'https://api.23andme.com/1';
 
+/**
+ * Method that takes a previously determined code and turns it in
+ * for an authentication token and if valid then renders the results
+ * page with the DNA genotypes
+ */
 exports.index = function(req, res, scope){
-    if (req.signedCookies.access_token) {
-      console.log("In signedCookies")
-        var names, names_by_id = {}, genotypes;
-        var base_uri = 'https://api.23andme.com/1';
-        var headers = {Authorization: 'Bearer ' + req.signedCookies.access_token};
-        request.get({ url: base_uri + '/names/', headers: headers, json: true }, function (e, r, body) {
-            if(r.statusCode != 200) {
-                res.clearCookie('access_token');
-                res.redirect('/');
-            } else {
-                names = body;
-                for (var i = 0; i < names.profiles.length; i++) {
-                    names_by_id[names.profiles[i].id] = names.profiles[i].first_name + ' ' + names.profiles[i].last_name;
-                }
-                request.get({ url: base_uri + '/genotype/?locations=' + _scope.COMTscope, headers: headers, json: true}, function (e, r, body) {
-                    genotypes = body[0];
-                    var songString = ""
-                    var acceptableGenotypes = ["C","A"]
-                    var numbers = ["4","5"]
-                    for(var attribute in genotypes){
-                      var currentGenotype = genotypes[attribute];
-                      var firstChar = currentGenotype.charAt(0);
-                      var secondChar = currentGenotype.charAt(1);
+  // If there isnt a code stored then render the normal index page
+  if(!req.signedCookies.access_token){
+    res.render('index', {
+        client_id: process.env.CLIENT_ID,
+        scope: scope,
+        redirect_uri: process.env.REDIRECT_URI
+    });
+  }
+  // If a cookie exists then hit the api for a token then for the genotypes
 
-                      // If the index is -1 then the character doesn't exist in the
-                      // acceptable genotypes
-                      if(acceptableGenotypes.indexOf(firstChar) == -1 ||
-                         acceptableGenotypes.indexOf(secondChar) == -1){
-                        console.error("ERROR" + firstChar + secondChar)
-                      }else{
-                        if(firstChar == "T")
-                          firstChar = "B"
-                        if(secondChar == "T")
-                          secondChar = "B"
-                        songString = songString + firstChar + numbers.random() + "," + secondChar + numbers.random() + ","
-                      }
-                    }
-                    console.log(songString)
-                    res.render('result', {
-                        names: names_by_id,
-                        genotypes: genotypes,
-                        songString: songString
-                    });
-                });
-            }
-        });
-    } else {
-        res.render('index', {
-            client_id: process.env.CLIENT_ID,
-            scope: scope,
-            redirect_uri: process.env.REDIRECT_URI
-        });
-    }
+  // The authorization header with the access token from the cookie which is needed
+  // for api requests
+  var headers = {Authorization: 'Bearer ' + req.signedCookies.access_token};
+
+  // Use a Promise async function to turn the code in for a token
+  var token = getToken(headers);
+  token.then(function(names) {
+    requestGenotypes(res, headers, names)
+  }).catch(function(e) {
+    // If the token auth fails then redirect to root and clear the cookie
+    res.clearCookie('access_token');
+    res.redirect('/');
+  });
+
 };
 
+function requestGenotypes(res, headers, names){
+  // After the Promise returns then request the genotypes
+  var genotypes = getGenotypes(headers);
+  genotypes.then(function(result) {
+    // Parse the genotypes and format the song string
+    var songString = parseGenotypes(result)
+    // Finally render the result page and pass in the songString
+    res.render('result', {
+      names: names,
+      genotypes: result,
+      songString: songString
+    });
+  }).catch(function(e){
+    console.error(e)
+    res.clearCookie('access_token');
+    res.redirect('/');
+  });
+}
+/**
+ * Method that takes a code and queries the 23andMe api for a token
+ */
+function getToken(headers){
+  var names, names_by_id = {}, genotypes;
+  var options = {
+    url: base_uri + '/names/', // appends names to global variable base_uri
+    headers: headers,          // Headers contains the authentication codes
+    json: true
+  };
+  // Return new promise
+  return new Promise(function(resolve, reject) {
+    // Do async job
+    request.get(options, function (e, r, body) {
+      if(r.statusCode != 200) {
+        // If a non valid status code then reject the Promise
+        reject('Error validating token');
+      } else {
+        names = body;
+        for (var i = 0; i < names.profiles.length; i++)
+        {
+          names_by_id[names.profiles[i].id] = names.profiles[i].first_name + ' ' + names.profiles[i].last_name;
+        }
+        resolve(names_by_id);
+      }
+    });
+  })
+}
+
+/**
+ * Method that queries the 23andMe api for the rsIds and renders the results page
+ */
+function getGenotypes(headers){
+  var requestParams = {
+    url: base_uri + '/genotype/?locations=' + _scope.COMTscope,
+    headers: headers,
+    json: true
+  };
+  return new Promise(function(resolve, reject) {
+    request.get(requestParams, function (e, r, body) {
+      if(e) reject(e);
+      resolve(body[0])
+    });
+  })
+}
+
+/**
+ * Method that parses an array of genotypes into a string which can be fed into
+ * the Tone.js library on the frontend
+ */
+var parseGenotypes = function(genotypes){
+  console.log("genotypes" + JSON.stringify(genotypes))
+  var songString = ""
+  for(var attribute in genotypes){
+    // Parse out the first and second character of the genotype
+    var currentGenotype = genotypes[attribute];
+    var firstChar = currentGenotype.charAt(0);
+    var secondChar = currentGenotype.charAt(1);
+
+    // If the index is -1 then the character doesn't exist in the
+    // acceptable genotypes
+    if(acceptableGenotypes.indexOf(firstChar) != -1 ||
+       acceptableGenotypes.indexOf(secondChar) != -1){
+         // Replace all the T's with B's because T isn't a note
+         if(firstChar == "T")firstChar = "B";
+         if(secondChar == "T")secondChar = "B";
+         // Append the characters with a random scale
+         songString = songString + firstChar + numbers.random() + "," + secondChar + numbers.random() + ","
+    }
+  }
+  // Return the compiled song string
+  return songString;
+}
+
+/**
+ * Method that takes in the Authorization code from 23andMe
+ * and stores it as a cookie
+ */
 exports.receive_code = function(req, res, scope){
     if (!req.query.code) {
+        // if the query doesn't return a code then render the error page
         res.render('error', {
             client_id: process.env.CLIENT_ID,
             scope: scope,
@@ -83,7 +161,10 @@ exports.receive_code = function(req, res, scope){
             },
             json: true }, function(e, r, body) {
                 if (!e && r.statusCode == 200) {
+                    // Store the access code
                     res.cookie('access_token', body.access_token, {signed: true});
+                    // redirect to the index page which will now render the
+                    // results page because the cookie is set
                     res.redirect('/');
                 } else {
                     res.send(body);
@@ -91,3 +172,8 @@ exports.receive_code = function(req, res, scope){
             });
     }
 };
+
+// Array prototype that returns a random element
+Array.prototype.random = function(){
+  return this[Math.floor((Math.random()*this.length))];
+}
