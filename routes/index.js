@@ -112,10 +112,9 @@ function getGenotypes(headers){
  */
 var parseGenotypes = function(genotypes){
   var songString = ""
-  // Convert the object to an array
-  var g = Object.keys(genotypes).map(function(k) { return genotypes[k] });
-  // Clean the array of anything other than A,C,G,T and convert T's to B's
-  g = g.clean();
+  // Convert the object to an array and clean anything other than A,C,G,T and
+  // convert T's to B's
+  var g = Object.keys(genotypes).map(function(k) { return genotypes[k] }).clean();
   for(var i = 0; i < g.length; i++){
     songString = songString + g[i] + numbers.random() + ","
   }
