@@ -1,11 +1,16 @@
 extends layout
 
 block content
-  h1 Your results
-  button(id="chord") Click Me
-  input(id="genes" value="#{songString}")
-  each g, i in genotypes
-    p <b>#{names[g.id]} #{JSON.stringify(g)}</b>
+  .container
+    .row
+      .col-sm-12
+        div(align="center")
+          h1 Your results
+          label(for="genes") Song string:&nbsp;
+          input.form-control(id="genes" type="text" value="#{songString}")
+          br
+          button.btn.btn-primary.fa.fa-play(id="play" type="button")
+          button.btn.btn-secondary.fa.fa-pause(id="pause" type="button")
   
   script(type="text/javascript" src="/scripts/SongGenerator.js")
   
