@@ -111,24 +111,13 @@ function getGenotypes(headers){
  * the Tone.js library on the frontend
  */
 var parseGenotypes = function(genotypes){
-  console.log("genotypes" + JSON.stringify(genotypes))
   var songString = ""
-  for(var attribute in genotypes){
-    // Parse out the first and second character of the genotype
-    var currentGenotype = genotypes[attribute];
-    var firstChar = currentGenotype.charAt(0);
-    var secondChar = currentGenotype.charAt(1);
-
-    // If the index is -1 then the character doesn't exist in the
-    // acceptable genotypes
-    if(acceptableGenotypes.indexOf(firstChar) != -1 ||
-       acceptableGenotypes.indexOf(secondChar) != -1){
-         // Replace all the T's with B's because T isn't a note
-         if(firstChar == "T")firstChar = "B";
-         if(secondChar == "T")secondChar = "B";
-         // Append the characters with a random scale
-         songString = songString + firstChar + numbers.random() + "," + secondChar + numbers.random() + ","
-    }
+  // Convert the object to an array
+  var g = Object.keys(genotypes).map(function(k) { return genotypes[k] });
+  // Clean the array of anything other than A,C,G,T and convert T's to B's
+  g = g.clean();
+  for(var i = 0; i < g.length; i++){
+    songString = songString + g[i] + numbers.random() + ","
   }
   // Return the compiled song string
   return songString;
@@ -176,4 +165,32 @@ exports.receive_code = function(req, res, scope){
 // Array prototype that returns a random element
 Array.prototype.random = function(){
   return this[Math.floor((Math.random()*this.length))];
+}
+// Array prototype that removes duplicates
+Array.prototype.removeDuplicates = function(){
+  let unique = [];
+  for(let i = 0; i < this.length; i++){
+    if(unique.indexOf(this[i]) == -1)
+      unique.push(this[i])
+  }
+  return unique
+}
+
+Array.prototype.clean = function(){
+  let clean = [];
+  for(let i = 0; i < this.length; i++){
+    if(this[i] == "AA" || this[i] == "CC" || this[i] == "GG")
+    {
+      clean.push(this[i].charAt(0))
+      clean.push(this[i].charAt(1))
+    }
+
+    if(this[i] == "TT")
+    {
+      clean.push("B")
+      clean.push("B")
+    }
+
+  }
+  return clean
 }
