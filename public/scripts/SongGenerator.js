@@ -45,8 +45,50 @@ loop3.start('5m').stop('6m');
 loop.start('6m').stop('7m');
 loop3.start('6m').stop('7m');
 
-loop2.start('7m').stop('32m');
-loop3.start('7m').stop('32m');
+loop2.start('7m').stop('8m');
+loop3.start('7m').stop('8m');
+
+loop.start('8m').stop('9m');
+loop3.start('8m').stop('9m');
+
+loop2.start('9m').stop('10m');
+loop3.start('9m').stop('10m');
+
+loop.start('10m').stop('11m');
+loop3.start('10m').stop('11m');
+
+loop2.start('11m').stop('12m');
+loop3.start('11m').stop('12m');
+
+loop.start('12m').stop('13m');
+loop3.start('12m').stop('13m');
+
+loop2.start('13m').stop('14m');
+loop3.start('13m').stop('14m');
+
+loop.start('14m').stop('15m');
+loop3.start('14m').stop('15m');
+
+loop3.start('15m').stop('20m');
+loop3.start('15m').stop('20m');
+
+loop.start('20m').stop('25m');
+loop3.start('20m').stop('25m');
+
+loop2.start('25m').stop('30m');
+loop3.start('25m').stop('30m');
+
+loop.start('30m').stop('35m');
+loop3.start('30m').stop('35m');
+
+loop2.start('35m').stop('40m');
+loop3.start('35m').stop('40m');
+
+loop.start('40m').stop('45m');
+loop3.start('40m').stop('45m');
+
+loop2.start('45m').stop('50m');
+loop3.start('45m').stop('50m');
 
 var playButton = document.getElementById('play')
 var pauseButton = document.getElementById('pause')

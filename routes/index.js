@@ -35,6 +35,7 @@ exports.index = function(req, res, scope){
   token.then(function(names) {
     requestGenotypes(res, headers, names)
   }).catch(function(e) {
+    console.error(e)
     // If the token auth fails then redirect to root and clear the cookie
     res.clearCookie('access_token');
     res.redirect('/');
@@ -76,7 +77,7 @@ function getToken(headers){
     request.get(options, function (e, r, body) {
       if(r.statusCode != 200) {
         // If a non valid status code then reject the Promise
-        reject('Error validating token');
+        reject('Error validating token' + JSON.stringify(body));
       } else {
         names = body;
         for (var i = 0; i < names.profiles.length; i++)
@@ -148,6 +149,7 @@ exports.receive_code = function(req, res, scope){
                 scope: scope
             },
             json: true }, function(e, r, body) {
+                if(e) console.error(e)
                 if (!e && r.statusCode == 200) {
                     // Store the access code
                     res.cookie('access_token', body.access_token, {signed: true});
