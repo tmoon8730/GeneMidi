@@ -3,7 +3,7 @@ html
   head
     title GeneMidi
     script(src='https://tonejs.github.io/build/Tone.min.js')
-    //script(src='/scripts/Waveform.js')
+    script(src='/scripts/Waveform.js')
     link(rel='stylesheet', href='/stylesheets/app.css')
     script(src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js")
     link(href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css", rel="stylesheet", integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb", crossorigin="anonymous")
@@ -12,8 +12,11 @@ html
     link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
   body
     #content
-      .jumbotron.text-center
-        h1 GeneMidi
-        p Create a song from your genes!
-      block content
-        
+      div(style="margin:15px")
+        .nav
+          h1 GeneMidi
+        block content
+        div(style="margin-top:200px")
+          i.fa.fa-github.fa-3(aria-hidden="true")
+          a(href="https://github.com/tmoon8730/GeneMidi")
+            p Checkout GeneMidi on Github

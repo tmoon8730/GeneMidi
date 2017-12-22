@@ -48,8 +48,16 @@ loop3.start('6m').stop('7m');
 loop2.start('7m').stop('32m');
 loop3.start('7m').stop('32m');
 
+var playButton = document.getElementById('play')
+var pauseButton = document.getElementById('pause')
 
-document.querySelectorAll('button').forEach(function(button){
+playButton.addEventListener('mousedown', function(e){
+  Tone.Transport.start('+0.1')
+});
+pauseButton.addEventListener('mousedown', function(e){
+  Tone.Transport.stop()
+})
+/*document.querySelectorAll('button').forEach(function(button){
   button.addEventListener('mousedown', function(e){
     Tone.Transport.start('+0.1')
   //  piano.triggerAttack("C4")
@@ -58,7 +66,7 @@ document.querySelectorAll('button').forEach(function(button){
     Tone.Transport.stop()
   //  piano.triggerRelease("C4")
   })
-});
+});*/
 
 var runIt = function(time){
   var data = document.getElementById('genes').value.split(',');
