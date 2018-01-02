@@ -27,8 +27,9 @@ app.set('scope', _scope.COMTscope);
 /**
  * Routes
  */
-app.get('/', function(res, req) {
-    routes.index(res, req, app.get('scope'));
+app.get('/', function(req, res) {
+    //routes.index(res, req, app.get('scope'));
+    res.sendFile(path.join(__dirname + '/index.html'))
 });
 app.get('/receive_code/', function(res, req) {
     routes.receive_code(res, req, app.get('scope'));
