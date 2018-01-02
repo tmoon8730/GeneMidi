@@ -12,10 +12,23 @@ html
     link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
   body
     #content
-        .nav
-          h1 &nbsp;
-        block content
-        div(style="margin-top:200px")
-          i.fa.fa-github.fa-3(aria-hidden="true")
-          a(href="https://github.com/tmoon8730/GeneMidi")
-            p Checkout GeneMidi on Github
+      nav.navbar.navbar-toggleable-md.navbar-light.bg-faded
+        a.navbar-brand(href="#") SNP Song
+        button.navbar-toggler.navbar-toggler-right(type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation")
+          span.navbar-toggler-icon
+        div.collapse.navbar-collapse#navbarNav
+          ul.navbar-nav(style="float:right;")
+            li.nav-item(active)
+              a.nav-link(href="#") Home
+            li.nav-item
+              a.nav-link(href="#") Features
+            li.nav-item
+              a.nav-link(href="#") Pricing
+            li.nav-item
+              a.nav-link(disabled href="#") Disabled
+        
+      block content
+      div(style="margin-top:200px")
+        i.fa.fa-github.fa-3(aria-hidden="true")
+        a(href="https://github.com/tmoon8730/GeneMidi")
+          p Checkout GeneMidi on Github
