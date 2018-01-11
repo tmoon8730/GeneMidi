@@ -60,3 +60,15 @@ ul {
 .controlContainer {
   background-color: #bfb8b4;
 }
+
+#logoutbtn {
+  background-color: #444444;
+  padding: 10px;
+  border-radius: 8px;
+  text-decoration: none;
+}
+
+#logoutbtn:hover {
+  background-color: #222222;
+  color: #ddd;
+}
