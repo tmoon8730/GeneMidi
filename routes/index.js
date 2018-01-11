@@ -10,6 +10,11 @@ var acceptableGenotypes = ["C","A"]
 var numbers = ["4","5"]
 var base_uri = 'https://api.23andme.com/1';
 
+exports.logout = function(req, res){
+  res.clearCookie('access_token');
+  res.redirect('/');
+}
+
 /**
  * Method that takes a previously determined code and turns it in
  * for an authentication token and if valid then renders the results

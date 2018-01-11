@@ -31,6 +31,9 @@ app.get('/', function(req, res) {
     //routes.index(res, req, app.get('scope'));
     res.sendFile(path.join(__dirname + '/index.html'))
 });
+app.get('/logout', function(res, req) {
+  routes.logout(res, req)
+});
 app.get('/receive_code/', function(res, req) {
     routes.receive_code(res, req, app.get('scope'));
 });
