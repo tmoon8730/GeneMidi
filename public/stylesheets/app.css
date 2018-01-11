@@ -44,7 +44,7 @@ nav {
 
 #songNumber span{
   opacity: 0;
-  font-size: 120px;
+  font-size: 200px;
 }
 
 #genes {
@@ -53,4 +53,10 @@ nav {
 
 input {
   background-color: #FFE66D !important;
+}
+ul {
+  list-style-type: none;
+}
+.controlContainer {
+  background-color: #bfb8b4;
 }

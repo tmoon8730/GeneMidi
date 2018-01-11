@@ -4,19 +4,23 @@ block content
   .container
     .row
       .col-sm-12
-        div(align="center")
-          input.form-control(id="genes" type="text" value="#{songString}")
-          h1 Your SNP Song
-          p Click the play button to listen to your unique song!
-          button.btn.btn-primary.fa.fa-play(id="play" type="button" style="width:50px; height:50px; margin-right:10px")
-          button.btn.btn-secondary.fa.fa-pause(id="pause" type="button" style="width:50px; height:50px;")
-    .row(style="height: 50px;")
+        div.card
+          div(align="center" style="padding-bottom: 15px; margin-bottom: 10px;")
+            h1.card-header Your SNP Song
+            div.card-block
+              input.form-control(id="genes" type="text" value="#{songString}")
+              p Click the play button to listen to your unique song!
+              button.btn.btn-primary.fa.fa-play(id="play" type="button" style="width:50px; height:50px; margin-right:10px")
+              button.btn.btn-secondary.fa.fa-pause(id="pause" type="button" style="width:50px; height:50px;")
+    .row(style="height: 30px;")
     .row
-      .col-sm-4
-      .col-sm-4
-        div(align="center")
-          #songNumber 
-            span 3
-      .col-sm-4
+      .col-sm-12
+        div.card
+          div(align="center")
+            h4.card-header Current Note
+            div.card-block
+              div.card-block
+                #songNumber 
+                  span 3
   script(type="text/javascript" src="/scripts/SongGenerator.js")
   
