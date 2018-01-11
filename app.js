@@ -28,8 +28,7 @@ app.set('scope', _scope.COMTscope);
  * Routes
  */
 app.get('/', function(req, res) {
-    //routes.index(res, req, app.get('scope'));
-    res.sendFile(path.join(__dirname + '/index.html'))
+  routes.index(req, res, app.get('scope'));
 });
 app.get('/logout', function(res, req) {
   routes.logout(res, req)
