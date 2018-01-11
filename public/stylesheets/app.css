@@ -1,6 +1,11 @@
-h1{
-  color:#1ba2a2
-}
+/* Color Palette */
+/*
+  #FFE66D
+
+  #39A2AE
+
+  #696773
+ */
 
 #Canvas{
   width:100%;
@@ -11,4 +16,30 @@ h1{
   margin: 0;
   background-color: #fff;
   z-index: -1;
+}
+body{
+  background-color: #696773 !important;
+  color: #ddd !important;
+}
+nav {
+  background-color: #39A2AE;
+  margin-bottom: 30px;
+  border-bottom: 2px solid black;
+}
+
+.navbar a{
+  color: #fff;
+}
+
+.navbar li{
+  margin-top:15px;
+  margin-bottom:0px;
+}
+
+h1 {
+  color: #FFE66D !important;
+}
+
+input {
+  background-color: #FFE66D !important;
 }

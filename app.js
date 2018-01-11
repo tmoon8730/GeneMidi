@@ -30,6 +30,9 @@ app.set('scope', _scope.COMTscope);
 app.get('/', function(res, req) {
     routes.index(res, req, app.get('scope'));
 });
+app.get('/logout', function(res, req) {
+  routes.logout(res, req)
+});
 app.get('/receive_code/', function(res, req) {
     routes.receive_code(res, req, app.get('scope'));
 });
