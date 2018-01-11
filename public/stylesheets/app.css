@@ -44,7 +44,10 @@ nav {
 
 #songNumber span{
   opacity: 0;
-  font-size: 120px;
+  font-size: 200px;
+  font-family: 'Lassus', sans-serif;
+  overflow: auto;
+  white-space: nowrap;
 }
 
 #genes {
@@ -53,4 +56,27 @@ nav {
 
 input {
   background-color: #FFE66D !important;
+}
+ul {
+  list-style-type: none;
+}
+.controlContainer {
+  background-color: #bfb8b4;
+}
+
+#logoutbtn {
+  background-color: #444444;
+  padding: 10px;
+  border-radius: 8px;
+  text-decoration: none;
+}
+
+#logoutbtn:hover {
+  background-color: #222222;
+  color: #ddd;
+}
+
+@@font-face {
+  font-family: "Lassus";
+  src: url("public/fonts/Lassus.ttf") format("ttf");
 }

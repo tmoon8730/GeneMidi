@@ -9,6 +9,7 @@ html
     link(href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css", rel="stylesheet", integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb", crossorigin="anonymous")
     script(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.min.js", integrity="sha384-alpBpkh1PFOepccYVYDB4do5UnbKysX5WZXm3XxPqe5iKTfUKjNkCk9SaVuEZflJ", crossorigin="anonymous")
     script(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/js/bootstrap.bundle.min.js", integrity="sha384-3ziFidFTgxJXHMDttyPJKDuTlmxJlwbSkojudK/CkRqKDOmeSbN6KLrGdrBQnT2n", crossorigin="anonymous")
+    script(async src="https://platform.twitter.com/widgets.js" charset="utf-8")
     link(rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css")
     link(href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" rel="stylesheet")
   body
@@ -16,14 +17,32 @@ html
         nav.navbar.navbar-default
           div.container-fluid
             div.navbar-header
+              img(src="/images/SNPSongsLogo.png" style="width:50px;height:50px;border:1px solid #ccc; margin-right:10px;")
               a.navbar-brand(href="#") SNP Songs
             ul
               li
-                a(href="/logout") Signout
-        block content
+                a#logoutbtn(href="/logout") Signout
+        
+        div.contentContainer(style="margin-right: 25px; margin-left: 25px;")
+          .row 
+            .col-md-1
+            .col-md-8
+              block content
+            .col-md-3
+              div.card(style="max-height: 1200px;")
+                div.card-header
+                  h4 Genetic Lifehacks
+                div.card-block(style="padding: 10px; border-top: 0px solid #ccc")
+                  p Check out #[a(href="http://www.geneticlifehacks.com/") Genetic Lifehacks]  for useful information on what your 23 and me information means
+                div.card-block(style="padding: 0px; border-top: 0.5px solid #ccc")
+                  a.twitter-timeline(href="https://twitter.com/GeneticLifehack?ref_src=twsrc%5Etfw" data-height="750") Tweets by TwitterDev
+              br
+              div.card
+                div.card-header 
+                  h4 GitHub
+                div.card-block(style="padding: 10px; border-top: 0.5px solid #ccc")
+                  p This project is open source and feel free to fork the repository 
+                  a(href="https://github.com/tmoon8730/GeneMidi" style="color: #000;")#[i.fa.fa-github.fa-5x(aria-hidden="true")]
           
         div(style="margin-top:200px; margin-left:30px")
-          
-          a(href="https://github.com/tmoon8730/GeneMidi")
-            i.fa.fa-github.fa-6(aria-hidden="true")
-
+          p &copy; 2017 #[script new Date().getFullYear()>2010&&document.write("-"+new Date().getFullYear());], #[a(href="https://github.com/tmoon8730") tmoon8730 ].
