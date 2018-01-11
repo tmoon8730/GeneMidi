@@ -103,7 +103,7 @@ playButton.addEventListener('mousedown', function(e){
 });
 pauseButton.addEventListener('mousedown', function(e){
   Tone.Transport.stop()
-  $("#songNumber span").animate({"opacity": "0"},'fast');
+  //$("#songNumber span").animate({"opacity": "0"},'fast');
 })
 /*document.querySelectorAll('button').forEach(function(button){
   button.addEventListener('mousedown', function(e){
@@ -118,7 +118,14 @@ pauseButton.addEventListener('mousedown', function(e){
 
 var runIt = function(time){
   var data = document.getElementById('genes').value.split(',');
-  $("#songNumber span").text(data[0])
+  var songString = $("#songNumber span").text() + data[0]
+  console.log(songString.length);
+  if(songString.length > 16) {
+    console.log(songString)
+    songString = songString.substr(2);
+    console.log(songString)
+  }
+  $("#songNumber span").text(songString)
   piano.triggerAttackRelease(data[0], noteLength[0], time);
   data = data.splice(1,data.length);
   noteLength = noteLength.splice(1,noteLength.length);

@@ -45,6 +45,9 @@ nav {
 #songNumber span{
   opacity: 0;
   font-size: 200px;
+  font-family: 'Lassus', sans-serif;
+  overflow: auto;
+  white-space: nowrap;
 }
 
 #genes {
@@ -71,4 +74,9 @@ ul {
 #logoutbtn:hover {
   background-color: #222222;
   color: #ddd;
+}
+
+@@font-face {
+  font-family: "Lassus";
+  src: url("public/fonts/Lassus.ttf") format("ttf");
 }
