@@ -1,10 +1,12 @@
 /* Color Palette */
 /*
-  #FFE66D
+  Background: #F2E9E4
 
-  #39A2AE
+  Accent: #82A0A2
 
-  #696773
+  Text: #22223B
+
+  https://coolors.co/22223b-4a4e69-ccfbfe-cdd6dd-f2e9e4
  */
 
 #Canvas{
@@ -18,11 +20,15 @@
   z-index: -1;
 }
 body{
-  background-color: #696773 !important;
-  color: #ddd !important;
+  background-color: #F2E9E4 !important;
+  color: #22223B !important;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  font-family: 'Roboto', sans-serif;
 }
 nav {
-  background-color: #39A2AE;
+  background-color: #82A0A2;
   margin-bottom: 30px;
   border-bottom: 2px solid black;
 }
@@ -36,8 +42,13 @@ nav {
   margin-bottom:0px;
 }
 
-h1 {
-  color: #FFE66D !important;
+#songNumber span{
+  opacity: 0;
+  font-size: 120px;
+}
+
+#genes {
+  opacity: 0;
 }
 
 input {

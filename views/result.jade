@@ -5,12 +5,18 @@ block content
     .row
       .col-sm-12
         div(align="center")
-          h1 Your SNP Song
-          label(for="genes") Song string:&nbsp;
           input.form-control(id="genes" type="text" value="#{songString}")
-          br
+          h1 Your SNP Song
+          p Click the play button to listen to your unique song!
           button.btn.btn-primary.fa.fa-play(id="play" type="button" style="width:50px; height:50px; margin-right:10px")
           button.btn.btn-secondary.fa.fa-pause(id="pause" type="button" style="width:50px; height:50px;")
-  
+    .row(style="height: 50px;")
+    .row
+      .col-sm-4
+      .col-sm-4
+        div(align="center")
+          #songNumber 
+            span 3
+      .col-sm-4
   script(type="text/javascript" src="/scripts/SongGenerator.js")
   

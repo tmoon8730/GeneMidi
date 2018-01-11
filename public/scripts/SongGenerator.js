@@ -1,3 +1,6 @@
+
+
+
 Array.prototype.random = function(){return this[Math.floor((Math.random()*this.length))];}
 var synth = new Tone.Synth().toMaster()
 //var noteLength = ["32n","16n","8n","4n","2n","1n"]
@@ -93,11 +96,14 @@ loop3.start('45m').stop('50m');
 var playButton = document.getElementById('play')
 var pauseButton = document.getElementById('pause')
 
+
 playButton.addEventListener('mousedown', function(e){
-  Tone.Transport.start('+0.1')
+  Tone.Transport.start('+0.1');
+  $("#songNumber span").animate({"opacity": "0.5"},'fast');
 });
 pauseButton.addEventListener('mousedown', function(e){
   Tone.Transport.stop()
+  $("#songNumber span").animate({"opacity": "0"},'fast');
 })
 /*document.querySelectorAll('button').forEach(function(button){
   button.addEventListener('mousedown', function(e){
@@ -112,6 +118,7 @@ pauseButton.addEventListener('mousedown', function(e){
 
 var runIt = function(time){
   var data = document.getElementById('genes').value.split(',');
+  $("#songNumber span").text(data[0])
   piano.triggerAttackRelease(data[0], noteLength[0], time);
   data = data.splice(1,data.length);
   noteLength = noteLength.splice(1,noteLength.length);
