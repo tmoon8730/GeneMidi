@@ -2,13 +2,14 @@
  * app.js
  * Main express server configuration file
  */
-var express = require('express');
-var bodyParser = require('body-parser')
+var express      = require('express');
+var bodyParser   = require('body-parser')
 var cookieParser = require('cookie-parser');
-var routes  = require('./routes');
-var http    = require('http');
-var path    = require('path');
-var _scope  = require('./scope.js');
+var routes       = require('./routes');
+var http         = require('http');
+var path         = require('path');
+var _scope       = require('./scope.js');
+var fonts        = require('express-fonts');
 
 var app = express();
 
@@ -23,7 +24,11 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser(process.env.COOKIE_SECRET))
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('scope', _scope.COMTscope);
-
+app.use(fonts({
+  'csspath': '/css',
+  'fontspath': '/fonts',
+  'fontsdir': './public/fonts'
+}));
 /**
  * Routes
  */
@@ -34,7 +39,7 @@ app.get('/logout', function(res, req) {
   routes.logout(res, req)
 });
 app.get('/receive_code/', function(res, req) {
-    routes.receive_code(res, req, app.get('scope'));
+  routes.receive_code(res, req, app.get('scope'));
 });
 
 

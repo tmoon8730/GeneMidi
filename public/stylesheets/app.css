@@ -76,7 +76,9 @@ ul {
   color: #ddd;
 }
 
-@@font-face {
+@font-face {
   font-family: "Lassus";
-  src: url("public/fonts/Lassus.ttf") format("ttf");
+  font-style: normal;
+  font-weight: 400;
+  src: url("https://s3.us-east-2.amazonaws.com/snpsong-fonts/Lassus.ttf") format("truetype");
 }
